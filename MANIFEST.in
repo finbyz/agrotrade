@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include agrotrade *.css
+recursive-include agrotrade *.csv
+recursive-include agrotrade *.html
+recursive-include agrotrade *.ico
+recursive-include agrotrade *.js
+recursive-include agrotrade *.json
+recursive-include agrotrade *.md
+recursive-include agrotrade *.png
+recursive-include agrotrade *.py
+recursive-include agrotrade *.svg
+recursive-include agrotrade *.txt
+recursive-exclude agrotrade *.pyc
