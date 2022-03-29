@@ -95,13 +95,32 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Batch": {
+		'before_naming': "agrotrade.batch_valuation.override_batch_autoname",
+	},
+	"Purchase Receipt": {
+		"validate": [
+			"agrotrade.batch_valuation.pr_validate",
+		],
+		"on_cancel": "agrotrade.batch_valuation.pr_on_cancel",
+	},
+	"Purchase Invoice": {
+		"validate": "agrotrade.batch_valuation.pi_validate",
+		"on_cancel": "agrotrade.batch_valuation.pi_on_cancel",
+	},
+	"Landed Cost Voucher": {
+		"validate": [
+			"agrotrade.batch_valuation.lcv_validate",
+		],
+		"on_submit": "agrotrade.batch_valuation.lcv_on_submit",
+		"on_cancel": [
+			"agrotrade.batch_valuation.lcv_on_cancel",
+		],
+	},
+
+	
+}
 
 # Scheduled Tasks
 # ---------------
@@ -179,3 +198,38 @@ user_data_fields = [
 # 	"agrotrade.auth.validate"
 # ]
 
+from agrotrade.batch_valuation_overrides import get_supplied_items_cost,set_incoming_rate_buying,set_incoming_rate_selling,get_rate_for_return,get_incoming_rate,process_sle,get_args_for_incoming_rate
+
+# Buying controllers
+from erpnext.controllers.buying_controller import BuyingController
+BuyingController.get_supplied_items_cost = get_supplied_items_cost
+BuyingController.set_incoming_rate = set_incoming_rate_buying
+
+# Selling controllers
+from erpnext.controllers.selling_controller import SellingController
+SellingController.set_incoming_rate = set_incoming_rate_selling
+
+# sales and purchase return
+from erpnext.controllers import sales_and_purchase_return
+sales_and_purchase_return.get_rate_for_return =  get_rate_for_return
+
+# Document Events
+# ---------------
+# Hook on document methods and events
+import erpnext
+erpnext.stock.utils.get_incoming_rate = get_incoming_rate
+
+# stock_ledger
+from erpnext.stock.stock_ledger import update_entries_after
+update_entries_after.process_sle =  process_sle
+
+# stock entry
+from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
+StockEntry.get_args_for_incoming_rate = get_args_for_incoming_rate
+
+# e invoice override
+import erpnext
+
+from agrotrade.e_invoice_override import update_invoice_taxes,get_invoice_value_details
+erpnext.regional.india.e_invoice.utils.update_invoice_taxes = update_invoice_taxes
+erpnext.regional.india.e_invoice.utils.get_invoice_value_details = get_invoice_value_details
