@@ -31,7 +31,12 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"Purchase Order" : "public/js/purchase_order.js",
+	"Purchase Receipt" : "public/js/purchase_receipt.js",
+	"Purchase Invoice" : "public/js/purchase_invoice.js",
+	"Sales Invoice" : "public/js/sales_invoice.js"
+	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -96,6 +101,10 @@ app_license = "MIT"
 # Hook on document methods and events
 
 doc_events = {
+	"Payment Entry": {
+		"on_submit": "agrotrade.api.pe_on_submit",
+		"on_cancel": "agrotrade.api.pe_on_cancel",
+	},
 	"Batch": {
 		'before_naming': "agrotrade.batch_valuation.override_batch_autoname",
 	},
@@ -233,3 +242,14 @@ import erpnext
 from agrotrade.e_invoice_override import update_invoice_taxes,get_invoice_value_details
 erpnext.regional.india.e_invoice.utils.update_invoice_taxes = update_invoice_taxes
 erpnext.regional.india.e_invoice.utils.get_invoice_value_details = get_invoice_value_details
+
+
+
+# Broker Changes
+from erpnext.stock.doctype.purchase_receipt.purchase_receipt import PurchaseReceipt
+from agrotrade.agrotrade.doc_events.purchase_receipt import validate_with_previous_doc as pr_validate_with_previous_doc
+PurchaseReceipt.validate_with_previous_doc = pr_validate_with_previous_doc
+
+from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseInvoice
+from agrotrade.agrotrade.doc_events.purchase_invoice import validate_with_previous_doc as pi_validate_with_previous_doc
+PurchaseInvoice.validate_with_previous_doc = pi_validate_with_previous_doc
