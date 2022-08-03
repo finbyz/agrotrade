@@ -87,6 +87,7 @@ frappe.ui.form.on("Pre Shipment", {
 				method: 'get_document_details',
 				doc: frm.doc,
 				callback: function(r){
+					console.log(r)
 					if(!r.exc){
 						$.each(r.message, function(k, v){
 							frm.set_value(k, v);
@@ -140,13 +141,6 @@ frappe.ui.form.on("Pre Shipment", {
 	},
 
 	credit_currency: function(frm){
-		if(frm.doc.credit_currency == 'INR' && !set_currency){
-			frm.set_value("credit_currency", "USD");
-			set_currency = 1;
-		}
-		
-		frm.events.clear_forward_details(frm);
-		
 		if(frm.doc.credit_currency){
 			frm.events.get_exchange_rate(frm)
 			frm.events.set_currency_lables(frm);
@@ -154,8 +148,15 @@ frappe.ui.form.on("Pre Shipment", {
 		else {
 			cur_frm.set_df_property("source_exchange_rate", "description", "");
 		}
+		if(frm.doc.credit_currency == 'INR' && !set_currency){
+			frm.set_value("credit_currency", "USD");
+			set_currency = 1;
+		}
+		
+		frm.events.clear_forward_details(frm);
+		
 	},
-
+	
 	set_currency_lables: function(frm){
 		cur_frm.set_df_property("loan_amount_inr", "read_only", frm.doc.credit_currency == 'INR'? 0:1);
 

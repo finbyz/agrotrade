@@ -51,14 +51,20 @@ class PreShipment(Document):
 				self.source_exchange_rate = weighted_average_rate
 			
 		elif self.credit_currency and not self.source_exchange_rate:
-			self.source_exchange_rate = get_exchange_rate(self.credit_currency, "INR", self.posting_date)
+			if self.credit_currency != "INR":
+				self.source_exchange_rate = get_exchange_rate(self.credit_currency, "INR", self.posting_date)
+			else:
+				self.source_exchange_rate = 1
 
 	def validate_loan_amount(self):
 		if not cint(self.running) and flt(self.loan_amount) > flt(self.total_amount):
 			frappe.throw(_("Loan Amount cannot be greater that Total Amount."))
 
 	def calculate_loan_amount(self):
-		self.loan_amount_inr = flt(self.source_exchange_rate * self.loan_amount)
+		if self.credit_currency != "INR":
+			self.loan_amount_inr = flt(self.source_exchange_rate * self.loan_amount)
+		else:
+			self.loan_amount = self.loan_amount_inr
 		self.loan_outstanding_amount_inr = flt(self.source_exchange_rate * self.loan_outstanding_amount)
 
 	@frappe.whitelist()
@@ -162,7 +168,7 @@ class PreShipment(Document):
 		jv.bill_no = self.bank_loan_reference
 		jv.bill_date = self.posting_date
 		jv.due_date = self.loan_due_date
-
+		jv.is_opening = self.is_opening
 		try:
 			jv.save()
 			jv.submit()

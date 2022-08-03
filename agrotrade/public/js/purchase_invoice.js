@@ -7,6 +7,14 @@ cur_frm.fields_dict.broker.get_query = function(doc) {
 };
 
 frappe.ui.form.on('Purchase Invoice', {
+	naming_series: function(frm){
+		if(frm.doc.naming_series && frm.doc.naming_series == "RM.-.company_series./.fiscal./.###"){
+			frm.set_value("update_stock", 1)
+		}
+		else{
+			frm.set_value("update_stock", 0)
+		}
+	},
 	broker: function(frm) {
         if (frm.doc.broker) {
 			frappe.call({

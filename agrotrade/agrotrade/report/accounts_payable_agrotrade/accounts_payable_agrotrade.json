@@ -1,0 +1,36 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2022-04-16 17:19:50.444005",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Lancer Spices",
+ "modified": "2022-04-16 17:19:50.444005",
+ "modified_by": "Administrator",
+ "module": "Agrotrade",
+ "name": "Accounts Payable AgroTrade",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Purchase Invoice",
+ "report_name": "Accounts Payable AgroTrade",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Auditor"
+  },
+  {
+   "role": "Accounts User"
+  }
+ ]
+}

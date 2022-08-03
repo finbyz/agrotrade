@@ -1,0 +1,3 @@
+.modal-content [data-fieldname="po_no"]{
+    display: none !important;
+}

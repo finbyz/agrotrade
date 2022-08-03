@@ -8,14 +8,15 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "running",
   "against",
   "document",
-  "running",
   "underline_currency",
   "credit_currency",
   "total_amount",
   "total_amount_inr",
   "journal_entry",
+  "is_opening",
   "column_break_5",
   "status",
   "posting_date",
@@ -58,6 +59,7 @@
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: !doc.running",
    "fieldname": "against",
    "fieldtype": "Select",
    "label": "Against",
@@ -65,6 +67,7 @@
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: !doc.running",
    "fieldname": "document",
    "fieldtype": "Dynamic Link",
    "in_list_view": 1,
@@ -215,7 +218,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: doc.credit_currency != 'INR'",
    "fieldname": "loan_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -325,11 +327,18 @@
    "options": "Pre Shipment",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "default": "No",
+   "fieldname": "is_opening",
+   "fieldtype": "Select",
+   "label": "Is Opening",
+   "options": "Yes\nNo"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2022-04-07 15:15:52.110748",
+ "modified": "2022-08-03 15:23:57.479184",
  "modified_by": "Administrator",
  "module": "Agrotrade",
  "name": "Pre Shipment",

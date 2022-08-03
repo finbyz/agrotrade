@@ -29,13 +29,15 @@ app_license = "MIT"
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
+app_include_css = ["/assets/agrotrade/css/dialogue.css"]
 
 # include js in doctype views
 doctype_js = {
 	"Purchase Order" : "public/js/purchase_order.js",
 	"Purchase Receipt" : "public/js/purchase_receipt.js",
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
-	"Sales Invoice" : "public/js/sales_invoice.js"
+	"Sales Invoice" : "public/js/sales_invoice.js",
+	"Journal Entry":"public/js/journal_entry.js"
 	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -101,9 +103,12 @@ doctype_js = {
 # Hook on document methods and events
 
 doc_events = {
+	"Sales Invoice": {
+		"on_submit": "agrotrade.api.si_on_submit",
+	},
 	"Payment Entry": {
 		"on_submit": "agrotrade.api.pe_on_submit",
-		"on_cancel": "agrotrade.api.pe_on_cancel",
+		"before_cancel": "agrotrade.api.pe_on_cancel",
 	},
 	"Batch": {
 		'before_naming': "agrotrade.batch_valuation.override_batch_autoname",
@@ -127,6 +132,9 @@ doc_events = {
 			"agrotrade.batch_valuation.lcv_on_cancel",
 		],
 	},
+	'Journal Entry':{
+		'validate':"agrotrade.agrotrade.doc_events.journal_entry.validate"
+	}
 
 	
 }
@@ -244,6 +252,10 @@ erpnext.regional.india.e_invoice.utils.update_invoice_taxes = update_invoice_tax
 erpnext.regional.india.e_invoice.utils.get_invoice_value_details = get_invoice_value_details
 
 
+from erpnext.accounts.doctype.payment_reconciliation.payment_reconciliation import PaymentReconciliation
+from agrotrade.api import add_invoice_entries_with_bill_no
+PaymentReconciliation.add_invoice_entries =add_invoice_entries_with_bill_no
+
 
 # Broker Changes
 from erpnext.stock.doctype.purchase_receipt.purchase_receipt import PurchaseReceipt
@@ -253,3 +265,12 @@ PurchaseReceipt.validate_with_previous_doc = pr_validate_with_previous_doc
 from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseInvoice
 from agrotrade.agrotrade.doc_events.purchase_invoice import validate_with_previous_doc as pi_validate_with_previous_doc
 PurchaseInvoice.validate_with_previous_doc = pi_validate_with_previous_doc
+
+#Gross Profit Report Override
+from erpnext.accounts.report.gross_profit import gross_profit
+from agrotrade.agrotrade.report.gross_profit import execute
+gross_profit.execute = execute
+
+from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseInvoice
+from agrotrade.agrotrade.doc_events.purchase_invoice import set_expense_account as set_expense_account_custom
+PurchaseInvoice.set_expense_account = set_expense_account_custom
