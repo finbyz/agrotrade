@@ -1,0 +1,23 @@
+{
+ "absolute_value": 0,
+ "align_labels_right": 0,
+ "creation": "2012-05-01 12:46:31",
+ "custom_format": 0,
+ "disabled": 1,
+ "doc_type": "Journal Entry",
+ "docstatus": 0,
+ "doctype": "Print Format",
+ "html": "",
+ "idx": 1,
+ "line_breaks": 0,
+ "modified": "2022-11-28 12:46:10.830140",
+ "modified_by": "Administrator",
+ "module": "Agrotrade",
+ "name": "Payment Receipt Voucher",
+ "owner": "Administrator",
+ "print_format_builder": 0,
+ "print_format_type": "Jinja",
+ "raw_printing": 0,
+ "show_section_headings": 0,
+ "standard": "Yes"
+}
