@@ -14,8 +14,9 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/agrotrade/css/agrotrade.css"
-# app_include_js = "/assets/agrotrade/js/agrotrade.js"
-
+app_include_js = [
+	"/assets/js/agrotrade.min.js",
+]
 # include js, css files in header of web template
 # web_include_css = "/assets/agrotrade/css/agrotrade.css"
 # web_include_js = "/assets/agrotrade/js/agrotrade.js"
@@ -37,7 +38,9 @@ doctype_js = {
 	"Purchase Receipt" : "public/js/purchase_receipt.js",
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
 	"Sales Invoice" : "public/js/sales_invoice.js",
-	"Journal Entry":"public/js/journal_entry.js"
+	"Journal Entry":"public/js/journal_entry.js",
+	"Pre Shipment":"public/js/pre_shipment.js",
+	"Customer":"public/js/customer.js"
 	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -133,8 +136,12 @@ doc_events = {
 		],
 	},
 	'Journal Entry':{
-		'validate':"agrotrade.agrotrade.doc_events.journal_entry.validate"
-	}
+		'validate':"agrotrade.agrotrade.doc_events.journal_entry.validate",
+		'on_cancel':"agrotrade.agrotrade.doc_events.journal_entry.on_cancel"
+	},
+	"Rodtap Claimed Management":{
+		"on_submit":"agrotrade.agrotrade.doctype.rodtap_claimed_management.rodtap_claimed_management.create_jv_on_submit"
+	},
 
 	
 }
@@ -274,3 +281,11 @@ gross_profit.execute = execute
 from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseInvoice
 from agrotrade.agrotrade.doc_events.purchase_invoice import set_expense_account as set_expense_account_custom
 PurchaseInvoice.set_expense_account = set_expense_account_custom
+
+from erpnext.regional.report.gst_itemised_sales_register import gst_itemised_sales_register
+from  agrotrade.agrotrade.report.gst_itemised_sales_register import execute as sales_register_execute
+gst_itemised_sales_register.execute = sales_register_execute
+
+from erpnext.regional.report.gst_itemised_purchase_register import gst_itemised_purchase_register
+from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
+gst_itemised_purchase_register.execute = purchase_register_execute

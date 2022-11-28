@@ -14,7 +14,7 @@ def fwd_uti(self):
 				"date": self.posting_date,
 				"party_type": self.party_type,
 				"party": self.party,
-				"paid_amount" : self.paid_amount,
+				"paid_amount" : row.amount_utilized,
 				"voucher_type": "Payment Entry",
 				"voucher_no" : self.name,
 			})
@@ -22,6 +22,18 @@ def fwd_uti(self):
 @frappe.whitelist()
 def pe_on_cancel(self, method):
 	fwd_uti_cancel(self)
+	remove_pe_from_brc(self,method)
+
+def remove_pe_from_brc(self,method):
+    voucher_no = self.name
+    data = frappe.db.sql(f"""SELECT brc.name as brc , brcp.name
+                            from `tabBRC Management` as brc
+                            left join `tabBRC Payment` as brcp on brcp.parent = brc.name     
+                            where brcp.voucher_type = "Payment Entry" and brcp.voucher_no = '{voucher_no}'
+                            """, as_dict=1)
+
+    for row in data:
+        frappe.db.delete("BRC Payment",row.name)
 
 def fwd_uti_cancel(self):
 	if self.name == "ACC-PAY-2022-00220":pass

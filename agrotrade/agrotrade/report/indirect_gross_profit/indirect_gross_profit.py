@@ -457,7 +457,10 @@ class GrossProfitGenerator(object):
 			if (row.indent == 0 and indirect_expence_dict.get(row.invoice_or_item)):
 				si_amount_dict[row.invoice_or_item] = {'total_base_amount' : (row.base_amount - row.buying_amount), 'total_indirect_expence' : indirect_expence_dict.get(row.invoice_or_item)}
 			elif indirect_expence_dict.get(row.parent) and self.filters.get("group_by") != "Invoice":
-				si_amount_dict[row.parent] = {'total_base_amount' : (row.base_amount - row.buying_amount), 'total_indirect_expence' : indirect_expence_dict.get(row.parent,0)}
+				if si_amount_dict.get(row.parent):
+					si_amount_dict[row.parent]['total_base_amount'] += flt(row.base_amount - row.buying_amount)
+				else:
+					si_amount_dict[row.parent] = {'total_base_amount' : (row.base_amount - row.buying_amount), 'total_indirect_expence' : indirect_expence_dict.get(row.parent,0)}
 
 		invoice_list = []
 
@@ -483,7 +486,7 @@ class GrossProfitGenerator(object):
 			elif self.filters.get("group_by") != "Invoice" and si_amount_dict.get(row.parent):
 				if row.item_code not in invoice_list:
 					if row.get('base_amount') or row.get('buying_amount'):
-						row.gross_profit = row.gross_profit - (si_amount_dict[row.parent]['total_indirect_expence'] * (row.get('base_amount') - row.get('buying_amount'))/ (row.get('base_amount') - row.get('buying_amount')))
+						row.gross_profit = row.gross_profit - (si_amount_dict[row.parent]['total_indirect_expence'] * (row.get('base_amount') - row.get('buying_amount'))/ si_amount_dict[row.parent]['total_base_amount'])
 					else:
 						row.gross_profit = row.gross_profit
 					if row.base_amount:

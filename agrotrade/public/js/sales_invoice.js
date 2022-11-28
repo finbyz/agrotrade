@@ -18,9 +18,21 @@ frappe.ui.form.on('Sales Invoice', {
 	},
 	onload: function(frm){
 		frm.trigger('remove_export_fields')
+		if (frm.doc.__islocal) {
+			console.log("ghjj")
+    		frm.set_value("duty_drawback_jv","");
+    		frm.set_value("meis_jv","");
+	    }
 	},
 	refresh: function(frm){
-		frm.trigger('remove_export_fields')
+		if (frm.doc.__islocal) {
+			console.log("ghjj")
+    		frm.set_value("duty_drawback_jv","");
+    		frm.set_value("meis_jv","");
+		frm.doc.items.forEach(d=>{
+			frappe.model.set_value(d.doctype, d.name, "sales_order", null)
+		})
+	}
 	},
 	broker: function(frm) {
         if (frm.doc.broker) {x
@@ -101,3 +113,15 @@ frappe.ui.form.on('Notify Party Address', {
 		
 	}
 })
+frappe.ui.form.on('Sales Invoice Item', {
+	refresh:function(frm){
+		console.log(frm)
+		frm.doc.items.forEach(d=>{
+			console.log("Calels")
+			// if (frm.doc.__islocal) {
+
+			// }
+		})
+	}
+
+});

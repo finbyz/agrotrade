@@ -1,0 +1,6 @@
+{
+	"js/agrotrade.min.js": [
+        "public/js/gst_itemised_sales_register.js",
+        "public/js/gst_itemised_purchase_register.js"
+    ]
+}
