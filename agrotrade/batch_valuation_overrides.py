@@ -121,7 +121,7 @@ def process_sle(self, sle):
 				self.wh_data.stock_value = sum((flt(batch[0]) * flt(batch[1]) for batch in self.wh_data.stock_queue))
 
 	# rounding as per precision
-	self.wh_data.stock_value = flt(self.wh_data.stock_value, self.precision)
+	self.wh_data.stock_value = flt(self.wh_data.stock_value, self.set_precision)
 	stock_value_difference = self.wh_data.stock_value - self.wh_data.prev_stock_value
 	self.wh_data.prev_stock_value = self.wh_data.stock_value
 

@@ -18,16 +18,16 @@ def execute(filters=None):
 	new_data = []
 	if filters.get("ready_to_dispatch"):
 		for row in data:
-			if flt(row.dispatch_percentage) < 100 and flt(row.actual_qty) >= flt(row.qty_to_deliver) and row.name not in non_dispatch_list:
-				if row.name not in dispatch_dict:
-					dispatch_dict[row.name] = [row]
+			if flt(row.get('dispatch_percentage')) < 100 and flt(row.get('actual_qty')) >= flt(row.get('qty_to_deliver')) and row.get('name') not in non_dispatch_list:
+				if row.get('name') not in dispatch_dict:
+					dispatch_dict[row.get('name')] = [row]
 				else:
-					dispatch_dict[row.name].append(row)
+					dispatch_dict[row.get('name')].append(row)
 
 			else:
-				non_dispatch_list.append(row.name)
-				if row.name in dispatch_dict:
-					del dispatch_dict[row.name]
+				non_dispatch_list.append(row.get('name'))
+				if row.get('name') in dispatch_dict:
+					del dispatch_dict[row.get('name')]
 
 		for so, row in dispatch_dict.items():
 			new_data.extend(row)
@@ -161,7 +161,10 @@ def get_data(filters):
 			po = po_map.get(row.so_item_name)
 			if po:
 				row.po_qty = po.po_qty
-				row["panding_qty"] = flt(row.qty) - flt(row.po_qty) 
+				row.update({"panding_qty":flt(row.qty) - flt(row.po_qty) })
+				# row["panding_qty"] = flt(row.qty) - flt(row.po_qty)
+			else:
+				row.update({"panding_qty":flt(row.qty) })
 		
 		# if row.mr_name or row.so_item_name:
 		# 	po = po_map.get(row.mr_name)
@@ -191,6 +194,23 @@ def get_data(filters):
 			if si_date:
 				row.si_name = si_date[0]
 				row.si_date = si_date[1]
+	if not filters.get('ready_to_dispatch'):
+		data_ = []
+		for row in data:
+			if not row.qty:
+				row.update({'qty':0})
+			if not row.po_qty:
+				row.update({'po_qty':0})
+			if not row.delivered_qty:
+				row.update({'delivered_qty':0})
+			if not row.panding_qty:
+				row.update({'panding_qty':0})
+			update_dict = {}
+			if row.qty - row.po_qty != 0:
+				if row.panding_qty:
+					update_dict.update(row)
+					data_.append(update_dict)
+		data = data_
 	return data
 
 def get_columns_details():

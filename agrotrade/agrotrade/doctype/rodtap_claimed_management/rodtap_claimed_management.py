@@ -12,6 +12,7 @@ class RodtapClaimedManagement(Document):
 		for row in self.rodtap_details:
 			total = total + row.debit_amount
 		self.total_debit_amount = total
+		
 	
 	def on_submit(self):
 		if(round(flt(self.total_debit_amount),4) != round(flt(self.script_amount),4)):
@@ -55,7 +56,7 @@ def journal_entry_list(start_date,end_date):
 	}
 	
 	je_data = frappe.db.sql(f""" 
-		select je.name as je_no, jea.debit_in_account_currency as debit_amount , je.cheque_date, si.shipping_bill_number as shipping_bill_no, c.meis_receivable_account as account
+		select je.name as je_no, jea.debit_in_account_currency as debit_amount , je.cheque_date, je.cheque_no, si.shipping_bill_number as shipping_bill_no, c.meis_receivable_account as account
 
 		from `tabJournal Entry` as je
 		LEFT JOIN `tabJournal Entry Account` as jea ON jea.parent = je.name

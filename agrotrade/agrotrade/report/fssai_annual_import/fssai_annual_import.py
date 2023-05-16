@@ -17,7 +17,7 @@ def get_data(filters):
 	if filters.get('item_code'):
 		conditions += f" and i.item_code = '{filters.get('item_code')}'"
 
-	data =  frappe.db.sql(f""" Select i.item_code , pii.qty/1000 as qty_in_mt  , pii.rate , pii.qty ,(pii.fob_inr/qty) as fbqty ,pii.fob_inr
+	data =  frappe.db.sql(f""" Select i.item_code , pii.qty/1000 as qty_in_mt  , pii.rate , pii.qty ,(pii.fob_value/qty) as fbqty ,pii.fob_value
                 From `tabItem` as i
                 left join `tabPurchase Invoice Item` as pii ON pii.item_code = i.name
                 left join  `tabPurchase Invoice` as pi On pi.name = pii.parent

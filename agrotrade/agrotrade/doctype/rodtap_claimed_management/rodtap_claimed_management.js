@@ -23,6 +23,7 @@ frappe.ui.form.on('Rodtap Claimed Management', {
 					childTable.account = res['account']
 					childTable.debit_amount = res['debit_amount']
 					childTable.cheque_date = res['cheque_date']
+					childTable.cheque_no = res['cheque_no']
 				})
 				
 				cur_frm.refresh();
