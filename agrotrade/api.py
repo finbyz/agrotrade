@@ -1,7 +1,7 @@
 import frappe
-from frappe.utils import flt
+from frappe.utils import flt,cint
 from finbyzerp.api import naming_series_name
-
+from erpnext.accounts.utils import get_fiscal_year
 @frappe.whitelist()
 def pe_on_submit(self, method):
 	fwd_uti(self)
@@ -70,6 +70,11 @@ def add_invoice_entries_with_bill_no(self, non_reconciled_invoices):
 			inv.supplier_invoice_no=frappe.db.get_value("Purchase Invoice",entry.get('voucher_no'),'bill_no')
 			inv.supplier_invoice_date=frappe.db.get_value("Purchase Invoice",entry.get('voucher_no'),'bill_date')
 
+def get_fiscal(date):
+	fy = get_fiscal_year(date)[0]
+	fiscal = frappe.db.get_value("Fiscal Year", fy, 'fiscal')
+
+	return fiscal if fiscal else fy.split("-")[0][2:] + fy.split("-")[1][2:]
 
 def before_naming(self, method):
 	if not self.get('amended_from') and not self.get('name'):
