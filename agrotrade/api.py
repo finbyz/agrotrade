@@ -1,6 +1,6 @@
 import frappe
 from frappe.utils import flt
-
+from finbyzerp.api import naming_series_name
 
 @frappe.whitelist()
 def pe_on_submit(self, method):
@@ -69,3 +69,36 @@ def add_invoice_entries_with_bill_no(self, non_reconciled_invoices):
 		if entry.get('voucher_type') =="Purchase Invoice":
 			inv.supplier_invoice_no=frappe.db.get_value("Purchase Invoice",entry.get('voucher_no'),'bill_no')
 			inv.supplier_invoice_date=frappe.db.get_value("Purchase Invoice",entry.get('voucher_no'),'bill_date')
+
+
+def before_naming(self, method):
+	if not self.get('amended_from') and not self.get('name'):
+		date = self.get("transaction_date") or self.get("posting_date") or  self.get("manufacturing_date") or self.get('date') or getdate()
+		fiscal = get_fiscal(date)
+		self.fiscal = fiscal
+		if not self.get('company_series'):
+			self.company_series = None
+		
+		if self.doctype == "Purchase Invoice" and self.naming_series in ["DN-GST/.company_series./.fiscal./.###" , "DN-NON-GST/.company_series./.fiscal./.###"]:
+			if self.get('series_value'):
+				if self.series_value > 0:
+					name = naming_series_name(self.naming_series, fiscal, self.company_series)
+					check = frappe.db.get_value('Series', name, 'current', order_by="name")
+					if check == 0:
+						pass
+					elif not check:
+						frappe.db.sql("insert into tabSeries (name, current) values ('{}', 0)".format(name))
+
+					frappe.db.sql("update `tabSeries` set current = {} where name = '{}'".format(cint(self.series_value) - 1, name))
+		else:
+			if self.get('series_value'):
+				if self.series_value > 0:
+					name = naming_series_name(self.naming_series, fiscal, self.company_series)
+					check = frappe.db.get_value('Series', name, 'current', order_by="name")
+					if check == 0:
+						pass
+					elif not check:
+						frappe.db.sql("insert into tabSeries (name, current) values ('{}', 0)".format(name))
+
+					frappe.db.sql("update `tabSeries` set current = {} where name = '{}'".format(cint(self.series_value) - 1, name))
+

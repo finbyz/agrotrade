@@ -108,6 +108,7 @@ doctype_js = {
 doc_events = {
 	"Sales Invoice": {
 		"on_submit": "agrotrade.api.si_on_submit",
+		"on_cancel": "agrotrade.agrotrade.doc_events.sales_invoice.on_cancel"
 	},
 	"Payment Entry": {
 		"on_submit": "agrotrade.api.pe_on_submit",
@@ -289,3 +290,8 @@ gst_itemised_sales_register.execute = sales_register_execute
 from erpnext.regional.report.gst_itemised_purchase_register import gst_itemised_purchase_register
 from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
 gst_itemised_purchase_register.execute = purchase_register_execute
+
+
+from agrotrade.api import before_naming
+from finbyzerp import api
+api.before_naming = before_naming
