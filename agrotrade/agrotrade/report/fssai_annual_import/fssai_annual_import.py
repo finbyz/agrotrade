@@ -13,7 +13,7 @@ def execute(filters=None):
 def get_data(filters):
 	conditions = ""
 	if filters.get('from_date') and filters.get('to_date'):
-		conditions += f" and si.posting_date BETWEEN '{filters.get('from_date')}' and '{filters.get('to_date')}'"
+		conditions += f" and pi.posting_date BETWEEN '{filters.get('from_date')}' and '{filters.get('to_date')}'"
 	if filters.get('item_code'):
 		conditions += f" and i.item_code = '{filters.get('item_code')}'"
 
@@ -21,7 +21,7 @@ def get_data(filters):
                 From `tabItem` as i
                 left join `tabPurchase Invoice Item` as pii ON pii.item_code = i.name
                 left join  `tabPurchase Invoice` as pi On pi.name = pii.parent
-                Where  pi.docstatus = 1
+                Where  pi.docstatus = 1 {conditions}
 
                 """,as_dict=True)
 	return data

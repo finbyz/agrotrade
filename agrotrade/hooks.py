@@ -97,9 +97,9 @@ doctype_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Payment Entry": "agrotrade.agrotrade.doc_events.payment_entry.CustomPaymentEntry"
+}
 
 # Document Events
 # ---------------
