@@ -6,7 +6,10 @@ from frappe.utils import cint, comma_or, flt, getdate, nowdate
 #Finbyz changes for forward contract
 class CustomPaymentEntry(PaymentEntry):
     def set_unallocated_amount(self):
-        unallocated_amount = self.unallocated_amount
+        if self.is_forward_contract_payment_entry:
+            unallocated_amount = self.unallocated_amount
+        else: 
+            self.unallocated_amount = 0
         if self.party:
             total_deductions = sum(flt(d.amount) for d in self.get("deductions"))
             included_taxes = self.get_included_taxes()
