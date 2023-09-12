@@ -15,7 +15,8 @@ app_license = "MIT"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/agrotrade/css/agrotrade.css"
 app_include_js = [
-	"/assets/js/agrotrade.min.js",
+	# "/assets/js/agrotrade.min.js",
+	"agrotrade.bundle.js"
 ]
 # include js, css files in header of web template
 # web_include_css = "/assets/agrotrade/css/agrotrade.css"
@@ -30,7 +31,10 @@ app_include_js = [
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
-app_include_css = ["/assets/agrotrade/css/dialogue.css"]
+app_include_css = [
+    # "/assets/agrotrade/css/dialogue.css"
+    "agrotrade.bundle.css"
+	]
 
 # include js in doctype views
 doctype_js = {
@@ -284,13 +288,14 @@ from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseI
 from agrotrade.agrotrade.doc_events.purchase_invoice import set_expense_account as set_expense_account_custom
 PurchaseInvoice.set_expense_account = set_expense_account_custom
 
-# from erpnext.regional.report.gst_itemised_sales_register import gst_itemised_sales_register
-# from  agrotrade.agrotrade.report.gst_itemised_sales_register import execute as sales_register_execute
-# gst_itemised_sales_register.execute = sales_register_execute
+from india_compliance.gst_india.report.gst_itemised_sales_register import gst_itemised_sales_register
+from  agrotrade.agrotrade.report.gst_itemised_sales_register import execute as sales_register_execute
+gst_itemised_sales_register.execute = sales_register_execute
 
-# from erpnext.regional.report.gst_itemised_purchase_register import gst_itemised_purchase_register
-# from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
-# gst_itemised_purchase_register.execute = purchase_register_execute
+# from india_compliance.gst_india.report.gst_itemised_purchase_register import gst_itemised_purchase_register
+from india_compliance.gst_india.report.gst_itemised_purchase_register import gst_itemised_purchase_register
+from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
+gst_itemised_purchase_register.execute = purchase_register_execute
 
 
 from agrotrade.api import before_naming

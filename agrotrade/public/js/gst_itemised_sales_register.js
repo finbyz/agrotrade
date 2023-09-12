@@ -1,9 +1,3 @@
-// Copyright (c) 2016, Frappe Technologies Pvt. Ltd. and contributors
-// For license information, please see license.txt
-/* eslint-disable */
-
-// {% include "erpnext/accounts/report/item_wise_sales_register/item_wise_sales_register.js" %}
-// {% include "erpnext/regional/report/india_gst_common/india_gst_common.js" %}
 // Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 // License: GNU General Public License v3. See license.txt
 

@@ -1,10 +1,10 @@
-cur_frm.fields_dict.broker.get_query = function(doc) {
-	return {
-		filters: {
-			"supplier_group": "Broker"
-		}
-	}
-};
+// cur_frm.fields_dict.broker.set_query = function(doc) {
+// 	return {
+// 		filters: {
+// 			"supplier_group": "Broker"
+// 		}
+// 	}
+// };
 
 frappe.ui.form.on('Sales Invoice', {
 	naming_series: function(frm){
@@ -23,6 +23,13 @@ frappe.ui.form.on('Sales Invoice', {
     		frm.set_value("duty_drawback_jv","");
     		frm.set_value("meis_jv","");
 	    }
+		frm.set_query('broker', () => {
+			return {
+				filters: {
+					"supplier_group": "Broker"
+				}
+			}
+		})
 	},
 	refresh: function(frm){
 		if (frm.doc.__islocal) {

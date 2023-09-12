@@ -3,7 +3,6 @@
         "public/js/gst_itemised_sales_register.js",
         "public/js/gst_itemised_purchase_register.js",
         "public/js/general_ledger.js",
-        "public/js/utils.js",
-        "public/js/sales_invoice.js"
+        "public/js/utils.js"
     ]
 }
