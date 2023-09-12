@@ -255,9 +255,9 @@ StockEntry.get_args_for_incoming_rate = get_args_for_incoming_rate
 # e invoice override
 import erpnext
 
-from agrotrade.e_invoice_override import update_invoice_taxes,get_invoice_value_details
-erpnext.regional.india.e_invoice.utils.update_invoice_taxes = update_invoice_taxes
-erpnext.regional.india.e_invoice.utils.get_invoice_value_details = get_invoice_value_details
+# from agrotrade.e_invoice_override import update_invoice_taxes,get_invoice_value_details
+# erpnext.regional.india.e_invoice.utils.update_invoice_taxes = update_invoice_taxes
+# erpnext.regional.india.e_invoice.utils.get_invoice_value_details = get_invoice_value_details
 
 
 from erpnext.accounts.doctype.payment_reconciliation.payment_reconciliation import PaymentReconciliation
@@ -283,13 +283,13 @@ from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import PurchaseI
 from agrotrade.agrotrade.doc_events.purchase_invoice import set_expense_account as set_expense_account_custom
 PurchaseInvoice.set_expense_account = set_expense_account_custom
 
-from erpnext.regional.report.gst_itemised_sales_register import gst_itemised_sales_register
-from  agrotrade.agrotrade.report.gst_itemised_sales_register import execute as sales_register_execute
-gst_itemised_sales_register.execute = sales_register_execute
+# from erpnext.regional.report.gst_itemised_sales_register import gst_itemised_sales_register
+# from  agrotrade.agrotrade.report.gst_itemised_sales_register import execute as sales_register_execute
+# gst_itemised_sales_register.execute = sales_register_execute
 
-from erpnext.regional.report.gst_itemised_purchase_register import gst_itemised_purchase_register
-from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
-gst_itemised_purchase_register.execute = purchase_register_execute
+# from erpnext.regional.report.gst_itemised_purchase_register import gst_itemised_purchase_register
+# from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as purchase_register_execute
+# gst_itemised_purchase_register.execute = purchase_register_execute
 
 
 from agrotrade.api import before_naming
