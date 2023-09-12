@@ -298,9 +298,9 @@ from agrotrade.agrotrade.report.gst_itemised_purchase_register import execute as
 gst_itemised_purchase_register.execute = purchase_register_execute
 
 
-from agrotrade.api import before_naming
-from finbyzerp import api
-api.before_naming = before_naming
+# from agrotrade.api import before_naming
+# from finbyzerp import api
+# api.before_naming = before_naming
 
 
 from erpnext.accounts.report.tds_payable_monthly import tds_payable_monthly
