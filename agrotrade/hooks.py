@@ -37,7 +37,7 @@ doctype_js = {
 	"Purchase Order" : "public/js/purchase_order.js",
 	"Purchase Receipt" : "public/js/purchase_receipt.js",
 	"Purchase Invoice" : "public/js/purchase_invoice.js",
-	"Sales Invoice" : "public/js/sales_invoice.js",
+	"Sales Invoice" : "public/js/doctypes_js/sales_invoice.js", 
 	"Journal Entry":"public/js/journal_entry.js",
 	"Pre Shipment":"public/js/pre_shipment.js",
 	"Customer":"public/js/customer.js"
@@ -98,7 +98,8 @@ doctype_js = {
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Payment Entry": "agrotrade.agrotrade.doc_events.payment_entry.CustomPaymentEntry"
+	"Payment Entry": "agrotrade.agrotrade.doc_events.payment_entry.CustomPaymentEntry",
+	"GL Entry": "agrotrade.doc_events.gl_entry.CustomGLEntry"
 }
 
 # Document Events
@@ -295,3 +296,18 @@ PurchaseInvoice.set_expense_account = set_expense_account_custom
 from agrotrade.api import before_naming
 from finbyzerp import api
 api.before_naming = before_naming
+
+
+from erpnext.accounts.report.tds_payable_monthly import tds_payable_monthly
+from agrotrade.agrotrade.report.tds_payable_monthly import execute
+tds_payable_monthly.execute = execute
+
+
+from erpnext.selling.report.sales_order_analysis import sales_order_analysis
+from agrotrade.agrotrade.report.sales_order_analysis import execute
+sales_order_analysis.execute = execute
+
+
+from erpnext.accounts.report.general_ledger import general_ledger
+from agrotrade.agrotrade.report.general_ledger import execute
+general_ledger.execute = execute
