@@ -25,7 +25,7 @@ from erpnext.exceptions import (
 	MandatoryAccountDimensionError,
 )
 from erpnext.accounts.doctype.gl_entry.gl_entry import (validate_balance_type, validate_frozen_account)
-
+from erpnext.accounts.doctype.gl_entry.gl_entry import update_outstanding_amt
 exclude_from_linked_with = True
 
 
