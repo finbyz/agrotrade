@@ -102,8 +102,8 @@ doctype_js = {
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Payment Entry": "agrotrade.doc_events.payment_entry.CustomPaymentEntry",
-	"GL Entry": "agrotrade.doc_events.gl_entry.CustomGLEntry"
+	"Payment Entry": "agrotrade.agrotrade.doc_events.payment_entry.CustomPaymentEntry",
+	"GL Entry": "agrotrade.agrotrade.doc_events.gl_entry.CustomGLEntry"
 }
 
 # Document Events
