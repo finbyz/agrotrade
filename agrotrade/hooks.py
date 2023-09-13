@@ -228,7 +228,7 @@ user_data_fields = [
 # 	"agrotrade.auth.validate"
 # ]
 
-from agrotrade.batch_valuation_overrides import get_supplied_items_cost,set_incoming_rate_buying,set_incoming_rate_selling,get_rate_for_return,get_incoming_rate,process_sle,get_args_for_incoming_rate
+from agrotrade.batch_valuation_overrides import get_supplied_items_cost,set_incoming_rate_buying,set_incoming_rate_selling,get_rate_for_return,get_incoming_rate,get_args_for_incoming_rate
 
 # Buying controllers
 from erpnext.controllers.buying_controller import BuyingController
@@ -250,8 +250,8 @@ import erpnext
 erpnext.stock.utils.get_incoming_rate = get_incoming_rate
 
 # stock_ledger
-from erpnext.stock.stock_ledger import update_entries_after
-update_entries_after.process_sle =  process_sle
+# from erpnext.stock.stock_ledger import update_entries_after
+# update_entries_after.process_sle =  process_sle
 
 # stock entry
 from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
