@@ -24,6 +24,7 @@ from erpnext.exceptions import (
 	InvalidAccountDimensionError,
 	MandatoryAccountDimensionError,
 )
+from erpnext.accounts.doctype.gl_entry.gl_entry import (validate_balance_type, validate_frozen_account)
 
 exclude_from_linked_with = True
 
